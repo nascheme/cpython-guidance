@@ -1,0 +1,36 @@
+[project]
+site_name = "CPython contributor guidance"
+site_url = "https://python.ca/cpython-guidance/"
+site_description = "Practical guidance for CPython contributors, drawn from recurring code review feedback."
+docs_dir = "docs"
+site_dir = "site"
+use_directory_urls = true
+nav = [
+    { "Home" = "index.md" },
+    { "Free-threading" = "free-threading/index.md" },
+    { "Creating guidance" = "guidance-process/index.md" },
+]
+
+[project.theme]
+features = ["navigation.top", "toc.follow", "content.code.copy"]
+# Use system fonts: no requests to an external font service.
+font = false
+
+# The first palette is the default; visitors can switch and keep their choice.
+[[project.theme.palette]]
+scheme = "default"
+toggle = { icon = "material/brightness-4", name = "Switch to dark mode" }
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle = { icon = "material/brightness-7", name = "Switch to light mode" }
+
+# Explicit extension configuration replaces Zensical's defaults.
+[project.markdown_extensions.pymdownx.highlight]
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.superfences]
+
+[project.markdown_extensions.toc]
+permalink = true
+toc_depth = 3

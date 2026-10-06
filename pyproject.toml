@@ -1,0 +1,14 @@
+[project]
+name = "cpython-guidance"
+version = "0.1.0"
+description = "Review-derived guidance for CPython contributors"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "zensical>=0.0.23,<0.1",
+]
+
+[tool.uv]
+package = false
