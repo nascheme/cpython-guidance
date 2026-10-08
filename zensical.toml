@@ -8,6 +8,7 @@ use_directory_urls = true
 nav = [
     { "Home" = "index.md" },
     { "Free-threading" = "free-threading/index.md" },
+    { "Concurrent programming primer" = "concurrent-primer/index.md" },
     { "Creating guidance" = "guidance-process/index.md" },
 ]
 

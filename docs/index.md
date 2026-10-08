@@ -8,6 +8,8 @@ contributors avoid them before submitting a change.
 
 - [Free-threading](free-threading/index.md): synchronization, reference handling,
   concurrency tests, performance, and related implementation decisions.
+- [Concurrent programming primer](concurrent-primer/index.md): concurrent C,
+  the memory model, synchronization, and free-threaded CPython's mechanisms.
 
 ## Creating guidance
 
