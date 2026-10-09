@@ -368,15 +368,12 @@ Use a CPython critical section when:
 - temporary release avoids otherwise difficult lock-order deadlocks; and
 - the operation can tolerate revalidation after suspension.
 
-For each critical section, review these questions:
+These questions help identify where suspension affects the choice:
 
-1. Which object's fields or mutex-owned state does it protect?
-2. Do all competing accesses use the same protocol?
-3. Can any operation inside block, detach, decrement a final reference, or invoke arbitrary Python?
-4. Is the invariant valid before every such operation?
-5. Which observations must be revalidated after reacquisition?
-6. Do two objects need the simultaneous two-object form?
-7. Do any borrowed references escape the protected interval?
+1. Can any operation inside block, detach, run a finalizer, or invoke arbitrary Python?
+2. Are invariants restored before every possible suspension point?
+3. Which observations must be revalidated after reacquisition?
+4. Do two objects need the simultaneous two-object form?
 
 The next CPython-specific mechanism is [stop-the-world coordination](12-stop-the-world.md), used when one or two object locks cannot provide the required global view.
 

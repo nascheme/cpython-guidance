@@ -262,17 +262,7 @@ An acquire load of a pointer can observe initialized contents, but it does not k
 
 ## Choose atomics for a complete, explainable protocol
 
-Before using an atomic operation, answer these questions:
-
-- Which object is atomic?
-- Is the operation a load, store, or indivisible read-modify-write?
-- Does the value stand alone, or does it publish other memory?
-- Which release operation synchronizes with which acquire operation?
-- What happens if a compare-exchange fails and retries?
-- What protects related invariants across several fields?
-- What keeps any pointed-to object alive?
-
-If the answers require a long proof, a mutex may be the safer design. The [next chapter](05-synchronization.md) explains synchronization primitives that protect complete operations and invariants directly.
+If an atomic protocol requires a long proof, a mutex may be the safer design. The [next chapter](05-synchronization.md) explains synchronization primitives that protect complete operations and invariants directly.
 
 ---
 

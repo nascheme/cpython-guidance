@@ -203,16 +203,12 @@ QSBR is a good fit when:
 
 Prefer a critical section for per-object state or a `PyMutex` for independently owned shared state when readers can take the lock cheaply. Readers must acquire separate lifetime protection before carrying a pointer beyond the lock's protected interval. For a normal Python object, a safely acquired strong reference is usually the right way to retain it for an unbounded time.
 
-Before adding a QSBR user inside CPython, explain:
+For a QSBR user inside CPython, the lifetime argument needs to identify:
 
-1. Which exact allocation or strong reference is retired.
-2. How readers load and use its pointer without a data race.
-3. Why the pointer cannot escape past a quiescent state.
-4. Which operation publishes replacement storage.
-5. Which writers are serialized and by what lock.
-6. Why every free and allocator-reuse path observes the grace period.
-7. Which references keep objects inside the storage alive.
-8. How delayed reclamation affects memory use.
+1. The exact allocation or strong reference being retired.
+2. Where readers finish using its pointer and why no unprotected pointer survives a quiescent state. This includes calls that run Python code or detach the thread.
+3. How every removal, reclamation, and reuse path follows the applicable lifetime rule. Retired raw storage needs delayed reclamation; specialized allocator page retention restricts page reuse, not every block reuse.
+4. Which references keep objects contained in the storage alive.
 
 QSBR is not a general sign that code is thread-safe. It is one part of a complete lock-free read protocol.
 

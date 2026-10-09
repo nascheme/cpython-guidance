@@ -141,17 +141,9 @@ This distinction appears often in CPython. Locks, reference counts, borrowed ref
 
 ## Start by identifying the shared state
 
-Before choosing a mutex or an atomic operation, write down what is shared. For each piece of mutable state, ask:
+Before choosing a mutex or an atomic operation, identify the shared state and its readers and writers. Include related fields, checks and updates that form one logical operation, and what keeps referenced objects alive while they are in use.
 
-- Which threads can access it?
-- Which accesses read it?
-- Which accesses change it?
-- Which object's lock or other synchronization rule protects each field?
-- Which fields must agree with each other?
-- Which checks and updates form one logical operation?
-- What keeps referenced objects alive while they are in use?
-
-The answers define the synchronization problem. The rest of this document explains the C rules and the CPython tools used to solve it.
+These relationships define the synchronization problem. The rest of this document explains the C rules and the CPython tools used to solve it.
 
 ---
 

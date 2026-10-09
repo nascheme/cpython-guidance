@@ -192,14 +192,6 @@ An object's `ob_mutex` is reserved for [critical-section machinery](11-cpython-c
 
 Use direct locking when continuous ownership is necessary and every reader and writer can follow a controlled mutex protocol. Chapter 11 gives the full [comparison with critical sections](11-cpython-critical-sections.md#choose-between-a-direct-mutex-and-a-critical-section).
 
-Before adding one, record:
-
-1. The fields and invariant it protects.
-2. Which functions acquire it and which require it held.
-3. Whether protected code can block, detach, or invoke arbitrary Python.
-4. Its position in the lock order.
-5. How the containing object's lifetime keeps the mutex address valid.
-
 For per-object locking around C API operations that may block or reenter Python, CPython provides critical sections. Mutex-backed variants support independently owned C state too. Their name resembles a conventional locked region, but their suspend-and-resume behavior is different. [Chapter 11](11-cpython-critical-sections.md) covers both forms.
 
 ---

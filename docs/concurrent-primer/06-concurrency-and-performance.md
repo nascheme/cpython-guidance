@@ -165,15 +165,7 @@ Measure throughput, latency, memory use, and scaling across realistic thread cou
 
 ## Optimize only after identifying the bottleneck
 
-A useful performance investigation asks:
-
-1. Which shared locations are written frequently?
-2. Which locks are contended, and how long are they held?
-3. Are unrelated writable fields sharing a cache line?
-4. Are atomic read-modify-write operations concentrated on one line?
-5. Can ownership become per-thread, per-object, or sharded?
-6. Can reads use immutable state?
-7. What accuracy, freshness, memory, or lifetime costs would the change add?
+Locate frequently written shared state and contended locks, including how long those locks are held. Check for unrelated writable fields sharing a cache line and atomic read-modify-write operations concentrated on one line. Then weigh per-thread or per-object ownership, sharding, and immutable state against their costs in accuracy, freshness, memory use, and lifetime management.
 
 Prefer structural changes that reduce sharing over weaker memory ordering applied without a proof. Preserve the simple synchronization rule unless measurements show that it matters.
 

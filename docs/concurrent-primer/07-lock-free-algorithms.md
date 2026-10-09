@@ -282,17 +282,14 @@ The [next chapter](08-safe-memory-reclamation.md) develops safe memory reclamati
 
 ## Lock-free code needs a complete proof
 
-Before accepting a lock-free design, identify:
+A lock-free design needs to explain:
 
-1. The atomic objects and memory order of every operation.
-2. The invariant represented by those objects.
-3. The linearization point of each operation.
-4. What every CAS failure causes the operation to recompute.
-5. Whether tentative reads are valid C accesses.
-6. How ABA is prevented or shown to be harmless.
-7. How removed objects remain alive for existing readers.
-8. Which progress guarantee applies, including called functions.
-9. What contention and retry behavior measurements show.
+1. Each operation's linearization point, or its stated consistency guarantee.
+2. What retries recompute and how failed attempts discard or undo side effects and transfer or release ownership.
+3. Why tentative reads are legal under the C memory model.
+4. How ABA is prevented or shown to be harmless.
+5. How reclamation keeps removed objects alive for existing readers.
+6. The scope of the progress guarantee, including called functions.
 
 If any part depends on "the window is very small" or "the address probably will not be reused," the algorithm is not complete. A mutex often provides a shorter correctness argument and better behavior than an unproven lock-free alternative.
 

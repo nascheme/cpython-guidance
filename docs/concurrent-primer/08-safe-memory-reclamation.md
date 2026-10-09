@@ -233,16 +233,9 @@ Keep these questions separate in code review:
 
 ## Choose reclamation from the reader contract
 
-Before selecting a reclamation scheme, determine:
+Choose a scheme that fits how readers obtain and release pointers. Explicit read-side regions suit epoch-based schemes and many RCU implementations; natural points where threads hold no old pointers suit QSBR. Hazard pointers protect individual objects, but each reader needs enough slots for the pointers it protects simultaneously.
 
-- how frequently reads and removals occur;
-- whether readers can explicitly enter and leave regions;
-- whether natural quiescent points exist;
-- whether readers may block or retain pointers for a long time;
-- how many pointers one reader needs simultaneously;
-- how promptly memory must be returned;
-- how threads register, detach, and exit; and
-- where destructors may safely run.
+Readers that block, stall, or retain pointers for a long time can delay reclamation. Hazard pointers usually limit retention to the named objects, while epochs and QSBR can retain many unrelated objects. Balance these retention costs and the required reclamation latency against read-side overhead and the frequency of reads and removals.
 
 Prefer a critical section for per-object state, or a `PyMutex` for independently owned shared state. For the node example, assign one mutex to `head` and its reachable nodes. Every reader must hold it while loading `head` and using the node. Every writer must hold it while updating `head` or linking or unlinking nodes. Once unlinking completes under that rule, no reader can still use the removed node. A pointer must not escape the lock unless the reader first acquires separate lifetime protection.
 

@@ -4,6 +4,8 @@ This index covers the primer in reading order and links to every chapter section
 
 For targeted lookup, start with the topic index below. For edits, read the linked section in context and check related chapters before adding an explanation that may already exist. Section links are preferable to line numbers, which change as the guide is edited.
 
+For definitions of concurrency terms, see the [glossary](glossary.md).
+
 ## Topic index
 
 | Topic or question | Primary section | Related material |
@@ -179,7 +181,6 @@ Introduces the two builds, thread-state contracts, public API implications, and 
 - [Borrowed references need renewed scrutiny](09-cpython-concurrency-model.md#borrowed-references-need-renewed-scrutiny)
 - [Reference counting is concurrency-aware](09-cpython-concurrency-model.md#reference-counting-is-concurrency-aware)
 - [Extension state may now be genuinely shared](09-cpython-concurrency-model.md#extension-state-may-now-be-genuinely-shared)
-- [Review code under both build models](09-cpython-concurrency-model.md#review-code-under-both-build-models)
 
 ### 10. [`PyMutex`](10-pymutex.md)
 

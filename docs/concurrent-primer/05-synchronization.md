@@ -296,17 +296,6 @@ The choice is not simply "mutexes are slow, atomics are fast." A contended atomi
 
 ## Review a synchronization rule as a whole
 
-For each shared invariant, check all of these points:
-
-1. Identify every mutable field in the invariant.
-2. Identify the exact mutex or protocol that protects each field.
-3. Include readers as well as writers.
-4. Keep dependent checks and actions in one protected operation.
-5. State which functions acquire the mutex and which require it held.
-6. Define a consistent order when several mutexes are needed.
-7. Account for blocking calls, callbacks, and every exit path.
-8. Explain how pointed-to objects remain alive after a lock is released.
-
 Shared mutable state does not need locking when it is still unpublished, is immutable after safe publication, is local to one thread, or is accessed under a lock already required from the caller. State which exception applies rather than leaving the missing lock unexplained.
 
 Mutexes make concurrent programs valid and understandable, but they do not make them fast automatically. The next section examines cache coherence, contention, false sharing, and other performance effects of synchronization.

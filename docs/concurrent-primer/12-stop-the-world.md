@@ -188,16 +188,12 @@ Use an object critical section for mutable state owned by one Python object. Use
 
 Stop-the-world can be the right choice for the opposite access pattern: a rare global writer and many hot readers that cannot take a common lock cheaply.
 
-Before using it, answer these questions:
+The safety requirements are:
 
-1. Is the protected invariant interpreter-wide or runtime-wide?
-2. Which threads and accesses does this pause actually exclude?
-3. Why is a narrower mutex or critical section not enough?
-4. Which preparation can happen before the pause?
-5. Which shared values must be read again after the pause begins?
-6. Can any operation in the stopped region wait for a lock, run Python, or request another pause?
-7. Does every exit path restart the world?
-8. Have pause frequency and latency been measured?
+1. Match the pause's scope to the protected invariant and the competing accesses it actually excludes.
+2. Re-read mutable shared state after the stop operation returns.
+3. Audit stopped-region operations for waiting on locks, running Python, or requesting nested pauses.
+4. Restart the matching scope on every exit path.
 
 Stop-the-world supplies global exclusion. It does not solve the different problem of allowing old lock-free readers to finish after storage has been replaced. CPython uses QSBR for that purpose.
 

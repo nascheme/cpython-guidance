@@ -83,9 +83,8 @@ Before accepting concurrent C code, verify all of the following:
 5. Every atomic operation has a stated role and memory order.
 6. Every pointer has a separate lifetime rule.
 7. Blocking, callbacks, finalizers, and thread detachment are accounted for.
-8. Lock-free code handles retries, ABA, and safe reclamation.
-9. Stop-the-world code cannot wait for a suspended thread.
-10. Performance complexity is supported by measurements.
+8. The design follows the chosen mechanism's contract: [lock-free algorithms](07-lock-free-algorithms.md#lock-free-code-needs-a-complete-proof), [critical sections](11-cpython-critical-sections.md#choose-between-a-direct-mutex-and-a-critical-section), [stop-the-world](12-stop-the-world.md#choose-a-narrower-mechanism-when-possible), or [QSBR](13-qsbr-in-cpython.md#qsbr-is-useful-for-read-mostly-internal-storage).
+9. Performance complexity is supported by measurements.
 
 Correctness comes first. A short mutex-based proof is usually better than a subtle atomic protocol. Optimize only after finding a real bottleneck, and preserve a synchronization rule that future contributors can understand.
 

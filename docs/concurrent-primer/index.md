@@ -5,6 +5,7 @@ free-threaded CPython. Chapters 1–8 cover general concepts, chapters 9–13 co
 CPython, and chapter 14 helps you choose a technique.
 
 Start with [shared mutable memory](01-shared-mutable-memory.md), or use the
-[contents and topic index](contents.md) to find a specific subject.
+[contents and topic index](contents.md) to find a specific subject. The
+[glossary](glossary.md) defines concurrency terms and links to relevant sections.
 
 

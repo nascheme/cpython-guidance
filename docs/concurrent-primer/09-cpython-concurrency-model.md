@@ -222,19 +222,6 @@ Module state being per-interpreter does not make it per-thread. Threads attached
 
 Avoid using a Python object's reserved per-object mutex directly for unrelated extension state. Add a separate mutex whose ownership and protected fields are clear. A later section covers `PyMutex` and another covers CPython critical sections.
 
-## Review code under both build models
-
-For code that supports both CPython configurations, ask:
-
-1. Which accesses were formerly serialized by the GIL?
-2. Which of those can now occur from several attached threads?
-3. Which object or mutex protects each mutable invariant?
-4. Do direct field accesses or macros bypass that protection?
-5. Does every borrowed reference remain valid under concurrent mutation?
-6. Can any call block, detach, invoke Python, or run a callback?
-7. Does an owned reference protect lifetime without being mistaken for content locking?
-8. Does extension initialization correctly declare whether the module supports a disabled GIL?
-
 The following CPython-specific sections explain the main replacement mechanisms. [Chapter 10](10-pymutex.md) begins with `PyMutex`, the lightweight mutex underlying many of CPython's locks and critical sections.
 
 ---
