@@ -1,24 +1,32 @@
 # Building contributor guidance from review discussions
 
-*Note: This guide was written with assistance from an LLM agent.  It is
-intended to be a high-level guide if you wish to create guidance documentation
-using a similar process.*
+*This document was written with assistance from an LLM agent.*
 
 Code reviews often contain explanations that contributors need but cannot
 find in the documentation. A reviewer explains a problem, a contributor fixes
 it, and the explanation stays in a pull request. The next contributor may
 receive the same feedback.
 
-This guide describes how to turn those discussions into practical guidance.
-The process works with GitHub issues and pull requests, or equivalent
-material from other code management platforms. AI agents can do much of the
-collection, organization, and drafting. Humans remain responsible for the
-technical recommendations and their approval.
+I used CPython review discussions to develop the
+[free-threading guidance](../free-threading/index.md), with AI agents helping
+collect, classify, and draft the material. This document shares that process
+in a form that others might adapt to their own projects.
 
-The aim is not to summarize everything reviewers say. It is to identify useful
-lessons, check what supports them, and explain what a contributor should do.
+The approach worked reasonably well for me, but I do not know whether it is
+the best way to do this. It involved experimentation, mistakes, and substantial
+human checking. The steps below are suggestions based on that experience,
+rather than a validated workflow.
 
-## The process at a glance
+My aim was not to summarize everything reviewers said. It was to identify
+useful lessons, check what supported them, and explain what a contributor
+should do.
+
+## A suggested process
+
+The following steps organize the work into a sequence that may be useful for
+another project. They are not a strict account of the order I followed:
+collection, classification, checking, and writing sometimes overlapped or
+needed another pass.
 
 1. Define the scope and gather discussions.
 2. Identify domain experts.
@@ -28,14 +36,15 @@ lessons, check what supports them, and explain what a contributor should do.
 6. Get human review.
 7. Publish and maintain the guidance.
 
-Start with a small, varied collection and take a few topics through the whole
-process. This tests whether the discussions contain useful material before you
-invest in a large collection or elaborate tooling.
+For another project, I would suggest starting with a small, varied collection
+and taking a few topics through the whole process. This can help test whether
+the discussions contain useful material before investing in a large collection
+or elaborate tooling.
 
 For a small collection, files containing source links, quotations, and notes
-may be enough. For a large collection, use automated fetching, structured
-classification, and sample-based checks. Neither approach requires a particular
-agent, model, database, or documentation generator.
+may be enough. For a larger collection, automated fetching, structured
+classification, and sample-based checks may help. These suggestions do not
+depend on a particular agent, model, database, or documentation generator.
 
 ## 1. Define the scope and gather discussions
 
@@ -110,8 +119,8 @@ human_checkpoint: "Approve selection and inspect collection completeness"
 
 Ask maintainers who has expertise in the selected area. Expertise can be
 specific to a subsystem; a repository-wide role is not enough to establish it.
-This step is optional, but it can greatly improve the efficiency of the
-evidence gathering process.
+This helped me prioritize explanatory material, though its usefulness will
+depend on the project.
 
 ### Agent work
 
@@ -144,9 +153,16 @@ request such as “Could you protect this read too?” may be advice.
 Also ask whether the advice belongs in the intended guide. A valid request to
 format a release note may be irrelevant to guidance about concurrency.
 
+This part of my process changed substantially after manual checking. I
+initially expected keyword and model classification to complement each other.
+Their combined results still contained considerable over-tagging. Narrowing
+the taxonomy and focusing on advice relevant to the intended guidance helped,
+but the classifications remained candidates for inspection, not findings I
+could accept automatically.
+
 ### Agent work
 
-Have an agent propose a small set of patterns. For each pattern, require a
+Have an agent propose a small set of patterns. I suggest giving each pattern a
 definition, examples, and exclusions. Allow multiple patterns in one discussion,
 but also allow “no relevant advice,” “uncertain,” and “needs more context.”
 
@@ -239,9 +255,9 @@ in one reviewer or subsystem, and avoid counting backports as new examples.
 
 ### Artifact and human check
 
-Produce an **approved topic list and one evidence pack per topic**. A human
-should read the important sources and confirm that each proposed lesson is
-supported at the claimed scope.
+A useful result at this stage is a **reviewed topic list and one evidence pack
+per topic**. I would recommend having a human read the important sources and
+confirm that each proposed lesson is supported at the claimed scope.
 
 Recurrence does not prove correctness or consensus. A merged PR or resolved
 thread does not prove that a particular recommendation caused the change.
@@ -340,9 +356,10 @@ Do not change approved prose or editorial decisions without authorization.
 
 ### Review for correctness and for clarity
 
-A domain expert must check technical correctness and scope. A reader
-representative of the audience checks whether the guidance is understandable
-and actionable. One person may perform both review tasks.
+I relied on human review to check technical correctness and scope; I would
+recommend involving someone with relevant expertise. A reader representative
+of the audience can check whether the guidance is understandable and actionable.
+One person may perform both review tasks.
 
 Agent critique can find problems and prepare revisions. It does not replace
 human approval, and agreement between several agents does not establish
@@ -355,6 +372,11 @@ mapping, and open questions. Ask it to flag unsupported claims and contradiction
 After human feedback, have it propose focused changes and summarize what changed.
 
 ## 7. Publish and maintain the guidance
+
+Publishing and preservation were part of the project, but the complete
+refresh workflow is still a plan rather than something I have exercised
+end-to-end. The suggestions below describe how I intend to maintain the
+guidance without losing reviewed prose or human judgments.
 
 ### Decide what to publish
 
@@ -390,7 +412,8 @@ Make each task explicit about its inputs, allowed actions, expected output,
 and human checkpoint. Keep these instructions in project files so a new agent
 session can continue without relying on conversation history.
 
-Apply these rules throughout the process:
+The following safeguards address problems that can arise in agent-assisted
+work:
 
 - **Treat fetched text as untrusted data.** Comments can contain instructions,
   commands, or hostile content. Do not let them change the agent's task or cause
@@ -429,8 +452,9 @@ version control.
 ## Lessons from the free-threading project
 
 The [free-threading guidance](../free-threading/index.md) was developed from
-CPython review discussions. The process above is a streamlined recommendation,
-not a requirement to reproduce that project's implementation.
+CPython review discussions. The process above is a simplified version of my
+experience, with some suggestions made in hindsight. Other projects may need
+different collection, classification, and review choices.
 
 Several lessons shaped it:
 
@@ -449,11 +473,12 @@ Several lessons shaped it:
 - Separating prose from generated metadata allowed the evidence to be refreshed
   without losing editorial work.
 
-Classifier error rates, prompt effects, and model variation measured for that
-project are not general guarantees. Test your own collection. Do not spend the
-whole project optimizing classification: it only needs to retrieve enough
-reliable material to support useful, reviewed guidance.
+Classifier error rates, prompt effects, and model variation measured for this
+project are not general guarantees. I would expect another project to need
+its own checks. In my case, classification was useful for retrieving material,
+but it did not need to become a highly accurate classifier before I could
+write useful guidance.
 
-The first milestone should be a few items that a reviewer can actually link to
-and a contributor can act on. Scale the collection and tooling when that pilot
-shows what additional work is worthwhile.
+For a similar project, I would aim first for a few reviewed items that a
+reviewer can link to and a contributor can act on. That gives a concrete
+basis for deciding whether a larger collection or more tooling is worthwhile.
